@@ -10,7 +10,7 @@ import copy
 import glob
 from ffpyplayer.player import MediaPlayer
 from PIL import Image, ImageDraw, ImageFont
-import emoji
+import argparse
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
@@ -30,6 +30,7 @@ dangerousPIXEL = 4500
 balls = []
 scale = 2
 llock = False
+level = 5
 
 class detUtils():
     def __init__(self):
@@ -315,14 +316,17 @@ GM = GameManager(1)
 
 def create_ball(timgs):
     global GM
+    global level
     img = timgs[random.randint(0, len(timgs)-1)]
     h,w = img.shape[:2]
     
+    speed = level if level > 5 else 5
+
     speed_x = 0
     speed_y = 0
     while speed_x == 0 or speed_y == 0:
-        speed_x = random.randint(-5, 5)
-        speed_y = random.randint(-5, 5)
+        speed_x = random.randint(-speed, speed)
+        speed_y = random.randint(-speed, speed)
 
     x, y = randomXY(h, w)
     if inseg(x,y,w/2,h/2):
@@ -370,7 +374,7 @@ def loadMap(H, W):
     mapp = cv2.imread("resources/map.png")
     return cv2.resize(mapp, (W, H))
 
-def main():
+def main(args):
     global showimg
     global H
     global W
@@ -380,6 +384,9 @@ def main():
     global currentIndex
     global checkimg
     global GM
+    global level
+
+    level = args.level
     restart = True
     du = detUtils()
     videostream = "test.mp4"
@@ -390,7 +397,7 @@ def main():
     if max(H, W) < 1000:
         H, W = H * scale, W * scale
     showimgt = loadMap(H, W)
-    dimgs, timgs = loadResources(100, 50)
+    dimgs, timgs = loadResources(120, 50)
     ret, frame = cap.read()
     PlayVideo(op, H, W)
     dimgindex = 0
@@ -528,4 +535,7 @@ def main():
     cap.release()
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--level", type=int, default=5)
+    args = parser.parse_args()
+    main(args)
