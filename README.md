@@ -7,14 +7,14 @@
 ## 使用方式
 ### 保证你的脸在摄像头可以拍摄的范围内，运行程序   
 ```
-    python erxianqiao_map_skill.py 
+    python erxianqiao_map_skill_sound.py 
 ```
 ### 移动你的身体、转动你的头颅躲避那些飞来的小球   
 ### 如果没检测到你的脸会直接Game Over哦
 ### 如果不小心死掉了，按**r**重新开始，按其他的则退出游戏      
 ### 如果你觉得游戏太过简单
 ```
-    python erxianqiao_map_skill.py --level X
+    python erxianqiao_map_skill_sound.py --level X
 ```
 ### X是一个正整数，X的默认值是5，如果你想加大难度，试试比5大的数吧   
 
